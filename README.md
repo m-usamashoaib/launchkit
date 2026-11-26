@@ -2,7 +2,7 @@
 
 A production-ready SaaS starter: authentication, Stripe subscriptions, plan-gated features and an admin dashboard, built with **Next.js 16, TypeScript and MongoDB**.
 
-**🔗 Live demo:** _coming soon_ · **👤 Author:** [Muhammad Usama Shoaib](https://m-usamashoaib.github.io)
+**🔗 Live demo:** [launchkit-ten-delta.vercel.app](https://launchkit-ten-delta.vercel.app) · **👤 Author:** [Muhammad Usama Shoaib](https://m-usamashoaib.github.io)
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6) ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47a248) ![Stripe](https://img.shields.io/badge/Stripe-Subscriptions-635bff) ![License](https://img.shields.io/badge/license-MIT-blue)
 
