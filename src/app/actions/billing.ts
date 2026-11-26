@@ -1,5 +1,6 @@
 "use server";
 
+import { refresh } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/dal";
@@ -24,6 +25,7 @@ export async function upgradeAction() {
       { _id: user.id },
       { plan: "pro", subscriptionStatus: "active", currentPeriodEnd: new Date(Date.now() + 30 * 86_400_000) },
     );
+    refresh(); // re-render the layout too (sidebar plan badge)
     redirect("/dashboard/billing?checkout=success");
   }
   if (!stripe || !process.env.STRIPE_PRO_PRICE_ID) throw new Error("Stripe is not configured.");
@@ -69,6 +71,7 @@ export async function manageBillingAction() {
       { _id: user.id },
       { plan: "free", subscriptionStatus: "canceled", currentPeriodEnd: null, cancelAtPeriodEnd: false },
     );
+    refresh();
     redirect("/dashboard/billing?checkout=canceled-demo");
   }
   if (!stripe) throw new Error("Stripe is not configured.");

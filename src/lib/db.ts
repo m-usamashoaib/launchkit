@@ -17,6 +17,11 @@ async function resolveUri(): Promise<{ uri: string; seed: boolean }> {
   if (process.env.NODE_ENV === "production") {
     throw new Error("MONGODB_URI is not set. Add it to your environment variables.");
   }
+  // Keep the binary in a short, shared folder: Windows can't start programs whose
+  // path exceeds 260 characters, which deep node_modules/.cache paths can hit.
+  const { homedir } = await import("node:os");
+  const { join } = await import("node:path");
+  process.env.MONGOMS_DOWNLOAD_DIR ??= join(homedir(), ".cache", "mongodb-binaries");
   const { MongoMemoryServer } = await import("mongodb-memory-server");
   const server = await MongoMemoryServer.create();
   console.log("[db] MONGODB_URI not set: using an in-memory database with demo accounts");

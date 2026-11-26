@@ -9,7 +9,7 @@ export type NavItem = { href: string; label: string; icon: string; badge?: strin
 export function SidebarNav({ items, footer }: { items: NavItem[]; footer?: ReactNode }) {
   const pathname = usePathname();
   return (
-    <div className="flex h-full flex-col gap-6">
+    <div className="flex h-full flex-col gap-4 md:gap-6">
       <nav className="flex gap-1 overflow-x-auto md:flex-col" aria-label="Dashboard">
         {items.map((item) => {
           const active = pathname === item.href;
@@ -31,7 +31,7 @@ export function SidebarNav({ items, footer }: { items: NavItem[]; footer?: React
           );
         })}
       </nav>
-      {footer && <div className="mt-auto hidden md:block">{footer}</div>}
+      {footer && <div className="md:mt-auto">{footer}</div>}
     </div>
   );
 }
