@@ -54,7 +54,7 @@ export async function upgradeAction() {
     line_items: [{ price: process.env.STRIPE_PRO_PRICE_ID, quantity: 1 }],
     subscription_data: { metadata: { userId: user.id } },
     allow_promotion_codes: true,
-    success_url: `${base}/dashboard/billing?checkout=success`,
+    success_url: `${base}/api/stripe/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${base}/dashboard/billing?checkout=canceled`,
   });
   if (!session.url) throw new Error("Stripe did not return a checkout URL.");
