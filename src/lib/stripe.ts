@@ -14,14 +14,18 @@ export async function syncSubscription(sub: Stripe.Subscription) {
   const customerId = typeof sub.customer === "string" ? sub.customer : sub.customer.id;
   const periodEnd = sub.items.data[0]?.current_period_end;
   const isActive = ACTIVE.has(sub.status);
+  // A scheduled cancellation shows up either as `cancel_at` (a date, which the
+  // customer portal sets on current API versions) or as `cancel_at_period_end`.
+  const cancelsAt = sub.cancel_at ?? (sub.cancel_at_period_end ? periodEnd : null);
+  const accessUntil = cancelsAt ?? periodEnd;
 
   const update = {
     stripeCustomerId: customerId,
     stripeSubscriptionId: sub.id,
     subscriptionStatus: sub.status,
     plan: isActive ? "pro" : "free",
-    currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : undefined,
-    cancelAtPeriodEnd: sub.cancel_at_period_end,
+    currentPeriodEnd: accessUntil ? new Date(accessUntil * 1000) : undefined,
+    cancelAtPeriodEnd: Boolean(cancelsAt) && isActive,
   } as const;
 
   const userId = sub.metadata?.userId;
